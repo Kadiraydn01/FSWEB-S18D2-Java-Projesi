@@ -2,7 +2,10 @@ package com.workintech.fruitsandvegetables.services;
 
 import com.workintech.fruitsandvegetables.dao.FruitRepository;
 import com.workintech.fruitsandvegetables.entity.Fruit;
+import com.workintech.fruitsandvegetables.exceptions.PlantErrorResponse;
+import com.workintech.fruitsandvegetables.exceptions.PlantExceptions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,7 +31,7 @@ public class FruitServiceImpl implements FruitService{
         if(fruitOptional.isPresent()){
             return fruitOptional.get();
         }
-        return null;
+        throw new PlantExceptions("Fruit with given id is not exist: "+ id , HttpStatus.NOT_FOUND);
     }
 
     @Override

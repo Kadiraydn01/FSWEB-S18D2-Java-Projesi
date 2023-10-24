@@ -2,10 +2,14 @@ package com.workintech.fruitsandvegetables.services;
 
 import com.workintech.fruitsandvegetables.dao.VegetableRepository;
 import com.workintech.fruitsandvegetables.entity.Vegetable;
+import com.workintech.fruitsandvegetables.exceptions.PlantExceptions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class VegetableServiceImpl implements VegetableService{
 
@@ -22,7 +26,12 @@ public class VegetableServiceImpl implements VegetableService{
 
     @Override
     public Vegetable find(long id) {
-        return null;
+        Optional<Vegetable> vegetableOptional = vegetableRepository.findById(id);
+        if(vegetableOptional.isPresent()){
+            return vegetableOptional.get();
+        }
+        throw new PlantExceptions("Vegetable with given id is not exist: "+ id , HttpStatus.NOT_FOUND);
+
     }
 
     @Override
